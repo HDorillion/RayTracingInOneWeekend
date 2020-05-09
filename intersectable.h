@@ -2,10 +2,15 @@
 
 #include "ray.h"
 
+#include <memory>
+
+class Material;
+
 // Represents a record of an intersection
 struct intersection_record {
     point3 p;
     vec3 normal;
+    std::shared_ptr<Material> mat_ptr;
     double t = 0.;
     bool faces_front = false;
 

@@ -3,6 +3,9 @@
 #include "camera.h"
 #include "color.h"
 #include "intersectableList.h"
+#include "lambertian.h"
+#include "metal.h"
+#include "ray.h"
 #include "settings.h"
 #include "sphere.h"
 #include "utilities.h"
@@ -15,11 +18,12 @@ color ray_color(const ray& r, const Intersectable& world, int depth) {
     if (depth <= 0) return color{ 0,0,0 };
     intersection_record record;
     if (world.intersects(r, 0.001, infinity, record)) {
-        point3 target =
-            record.p
-            + record.normal
-            + random_in_hemisphere(record.normal);
-        return 0.5 * ray_color(ray(record.p, target - record.p), world, depth - 1);
+        ray scattered_ray;
+        color attenuation;
+        if (record.mat_ptr->scatter(r, record, attenuation, scattered_ray))
+            return attenuation * ray_color(scattered_ray, world, depth - 1);
+        else
+            return color(0, 0, 0);
     }
     vec3 unit_direction = unit_vector(r.direction());
     auto t = 0.5 * (unit_direction.y() + 1.0);
@@ -34,9 +38,15 @@ int main() {
 
     // Set world
     IntersectableList world({
-        make_shared<Sphere>(point3{ 0, 0, -1 }, 0.5),
-        make_shared<Sphere>(point3{0, -100.5, -1}, 100)
-    });
+        make_shared<Sphere>(
+            point3(0, 0, -1), 0.5, make_shared<Lambertian>(color(0.7,0.3,0.3))),
+        make_shared<Sphere>(
+            point3(0, -100.5, -1), 100, make_shared<Lambertian>(color(0.8,0.9,0.0))),
+        make_shared<Sphere>(
+            point3(1, 0, -1), 0.5, make_shared<Metal>(color(0.8,0.6,0.2))),
+        make_shared<Sphere>(
+            point3(-1, 0, -1), 0.5, make_shared<Metal>(color(0.8,0.8,0.8))),
+        });
 
     // Set camera
     Camera camera;

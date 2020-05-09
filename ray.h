@@ -8,7 +8,7 @@ class ray {
     vec3 _direction;
 
 public:
-    ray() = delete;
+    ray() {}
     ray(const point3& origin, const vec3& direction)
         : _origin(origin), _direction(direction)
     {}

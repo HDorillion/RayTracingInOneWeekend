@@ -1,16 +1,21 @@
 #pragma once
 
 #include "intersectable.h"
+#include "material.h"
 #include "vec3.h"
+
+#include <memory>
 
 // A Spherical object in 3-D space which can be intersected
 class Sphere : public Intersectable {
     point3 center;
     double radius;
+    std::shared_ptr<Material> mat_ptr;
 
 public:
     Sphere() = delete;
-    Sphere(point3 center, double radius) : center(center), radius(radius) {}
+    Sphere(point3 center, double radius, std::shared_ptr<Material> mat)
+        : center(center), radius(radius), mat_ptr(mat) {}
 
     // Returns true if r intersects the sphere within the given range
     bool intersects(const ray& r, double t_min, double t_max, intersection_record& rec) const override;
@@ -31,6 +36,7 @@ bool Sphere::intersects(const ray& r, double t_min, double t_max, intersection_r
             rec.p = r.at(rec.t);
             vec3 outward_normal = (rec.p - center) / radius;
             rec.set_face_normal(r, outward_normal);
+            rec.mat_ptr = mat_ptr;
             return true;
         }
         // The plus root
@@ -40,6 +46,7 @@ bool Sphere::intersects(const ray& r, double t_min, double t_max, intersection_r
             rec.p = r.at(rec.t);
             vec3 outward_normal = (rec.p - center) / radius;
             rec.set_face_normal(r, outward_normal);
+            rec.mat_ptr = mat_ptr;
             return true;
         }
     }

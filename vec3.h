@@ -143,3 +143,8 @@ inline vec3 random_in_hemisphere(const vec3& normal) {
         + // Or not in same hemisphere
         static_cast<int>(!is_in_same_hemisphere) * -unit_sphere;
 }
+
+// Calculates a reflected ray about a vector, v, and a normal, n
+inline vec3 reflect(const vec3& v, const vec3& n) {
+    return v - 2 * dot(v, n) * n;
+}

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "ray.h"
+#include "ray.h" // ray
+#include "vec3.h" // vec3 and point3
 
 // Represents a camera for scene capture
 class Camera {
@@ -17,7 +18,5 @@ public:
         , origin({0.,0.,0.})
     {}
 
-    ray get_ray(double u, double v) const {
-        return ray(origin, lower_left_corner + u * horizontal + v * vertical - origin);
-    }
+    ray get_ray(double u, double v) const;
 };
