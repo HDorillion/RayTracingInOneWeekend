@@ -5,8 +5,8 @@
 struct hit_record {
     point3 p;
     vec3 normal;
-    double t;
-    bool faces_front;
+    double t = 0.;
+    bool faces_front = false;
 
     inline void set_face_normal(const ray& r, const vec3& outward_normal) {
         faces_front = dot(r.direction(), outward_normal) < 0;
