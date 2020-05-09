@@ -9,8 +9,8 @@ void IntersectableList::add(std::shared_ptr<Intersectable> object) {
     objects.push_back(object);
 }
 
-bool IntersectableList::intersects(const ray& r, double t_min, double t_max, hit_record& rec) const {
-    hit_record temp_record;
+bool IntersectableList::intersects(const ray& r, double t_min, double t_max, intersection_record& rec) const {
+    intersection_record temp_record;
     bool hit_something = false;
 
     auto closest_so_far = t_max;

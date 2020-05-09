@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+
+// Writes a pixel_color to out accounting for samples_per_pixel
 void write_color(std::ostream& out, color pixel_color, int samples_per_pixel) {
     // Scale pixel
     const auto scale = (1. / samples_per_pixel);

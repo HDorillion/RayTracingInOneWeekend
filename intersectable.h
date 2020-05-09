@@ -2,7 +2,8 @@
 
 #include "ray.h"
 
-struct hit_record {
+// Represents a record of an intersection
+struct intersection_record {
     point3 p;
     vec3 normal;
     double t = 0.;
@@ -19,7 +20,9 @@ struct hit_record {
     }
 };
 
+// Effectively an interface
+// Represents an object which may be intersected
 class Intersectable {
 public:
-    virtual bool intersects(const ray& r, double t_min, double t_max, hit_record& rec) const = 0;
+    virtual bool intersects(const ray& r, double t_min, double t_max, intersection_record& rec) const = 0;
 };

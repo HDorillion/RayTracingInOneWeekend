@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 
+// Represents a collection of Intersectable objects
 class IntersectableList :
     public Intersectable
 {
@@ -19,8 +20,10 @@ public:
         }
     }
 
+    // Clears the object collection
     void clear();
+    // Adds an object to the collection
     void add(std::shared_ptr<Intersectable> object);
-
-    virtual bool intersects(const ray& r, double t_min, double t_max, hit_record& rec) const;
+    // Returns true and modifies rec if an object intersects r with the given range
+    virtual bool intersects(const ray& r, double t_min, double t_max, intersection_record& rec) const;
 };

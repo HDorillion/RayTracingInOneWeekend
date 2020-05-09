@@ -3,18 +3,20 @@
 #include "intersectable.h"
 #include "vec3.h"
 
-class sphere : public Intersectable {
+// A Spherical object in 3-D space which can be intersected
+class Sphere : public Intersectable {
     point3 center;
     double radius;
 
 public:
-    sphere() = delete;
-    sphere(point3 center, double radius) : center(center), radius(radius) {}
+    Sphere() = delete;
+    Sphere(point3 center, double radius) : center(center), radius(radius) {}
 
-    bool intersects(const ray& r, double t_min, double t_max, hit_record& rec) const override;
+    // Returns true if r intersects the sphere within the given range
+    bool intersects(const ray& r, double t_min, double t_max, intersection_record& rec) const override;
 };
 
-bool sphere::intersects(const ray& r, double t_min, double t_max, hit_record& rec) const {
+bool Sphere::intersects(const ray& r, double t_min, double t_max, intersection_record& rec) const {
     vec3 oc = r.origin() - center;
     auto a = r.direction().length_squared();
     auto half_b = dot(oc, r.direction());
@@ -22,6 +24,7 @@ bool sphere::intersects(const ray& r, double t_min, double t_max, hit_record& re
     auto discriminant = half_b * half_b - a * c;
     if (discriminant > 0) {
         auto root = sqrt(discriminant);
+        // The minus root
         auto temp = (-half_b - root) / a;
         if (temp < t_max && temp > t_min) {
             rec.t = temp;
@@ -30,6 +33,7 @@ bool sphere::intersects(const ray& r, double t_min, double t_max, hit_record& re
             rec.set_face_normal(r, outward_normal);
             return true;
         }
+        // The plus root
         temp = (-half_b + root) / a;
         if (temp < t_max && temp > t_min) {
             rec.t = temp;

@@ -8,6 +8,7 @@
 constexpr auto infinity = std::numeric_limits<double>::infinity();
 constexpr auto pi = 3.1415926535897932385;
 
+// Returns degrees as radians
 inline double degrees_to_radians(double degrees) {
     return degrees * pi / 180;
 }
@@ -22,6 +23,7 @@ inline double random_double(double min, double max) {
     return min + (max - min) * random_double();
 }
 
+// Returns x if between min and max, otherwise returns clamped value
 inline double clamp(double x, double min, double max) {
     if (x < min) return min;
     if (x > max) return max;

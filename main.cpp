@@ -13,7 +13,7 @@ using namespace std;
 
 color ray_color(const ray& r, const Intersectable& world, int depth) {
     if (depth <= 0) return color{ 0,0,0 };
-    hit_record record;
+    intersection_record record;
     if (world.intersects(r, 0.001, infinity, record)) {
         point3 target = record.p + record.normal + random_unit_vector();
         return 0.5 * ray_color(ray(record.p, target - record.p), world, depth - 1);
@@ -31,8 +31,8 @@ int main() {
 
     // Set world
     IntersectableList world({
-        make_shared<sphere>(point3{ 0, 0, -1 }, 0.5),
-        make_shared<sphere>(point3{0, -100.5, -1}, 100)
+        make_shared<Sphere>(point3{ 0, 0, -1 }, 0.5),
+        make_shared<Sphere>(point3{0, -100.5, -1}, 100)
     });
 
     // Set camera

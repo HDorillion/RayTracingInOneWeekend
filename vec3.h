@@ -7,6 +7,7 @@
 
 using std::sqrt;
 
+// A 3-D vector
 class vec3
 {
     double e[3] = { 0, 0, 0 };

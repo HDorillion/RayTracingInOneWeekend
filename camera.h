@@ -2,6 +2,7 @@
 
 #include "ray.h"
 
+// Represents a camera for scene capture
 class Camera {
     point3 origin;
     point3 lower_left_corner;
