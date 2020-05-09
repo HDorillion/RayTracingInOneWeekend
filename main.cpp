@@ -15,7 +15,10 @@ color ray_color(const ray& r, const Intersectable& world, int depth) {
     if (depth <= 0) return color{ 0,0,0 };
     intersection_record record;
     if (world.intersects(r, 0.001, infinity, record)) {
-        point3 target = record.p + record.normal + random_unit_vector();
+        point3 target =
+            record.p
+            + record.normal
+            + random_in_hemisphere(record.normal);
         return 0.5 * ray_color(ray(record.p, target - record.p), world, depth - 1);
     }
     vec3 unit_direction = unit_vector(r.direction());

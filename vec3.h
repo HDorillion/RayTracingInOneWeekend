@@ -131,3 +131,15 @@ inline vec3 random_unit_vector() {
     auto r = sqrt(1 - z * z);
     return vec3(r * cos(a), r * sin(a), z);
 }
+
+// Generates a random vector to the normal based on if it is in the same
+// hemisphere
+inline vec3 random_in_hemisphere(const vec3& normal) {
+    vec3 unit_sphere = random_in_unit_sphere();
+    auto is_in_same_hemisphere = (dot(unit_sphere, normal) > 0.0);
+    return
+        // In same hemisphere
+        static_cast<int>(is_in_same_hemisphere) * unit_sphere
+        + // Or not in same hemisphere
+        static_cast<int>(!is_in_same_hemisphere) * -unit_sphere;
+}
