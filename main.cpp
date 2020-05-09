@@ -43,9 +43,9 @@ int main() {
         make_shared<Sphere>(
             point3(0, -100.5, -1), 100, make_shared<Lambertian>(color(0.8,0.9,0.0))),
         make_shared<Sphere>(
-            point3(1, 0, -1), 0.5, make_shared<Metal>(color(0.8,0.6,0.2))),
+            point3(1, 0, -1), 0.5, make_shared<Metal>(color(0.8,0.6,0.2), 0.3)),
         make_shared<Sphere>(
-            point3(-1, 0, -1), 0.5, make_shared<Metal>(color(0.8,0.8,0.8))),
+            point3(-1, 0, -1), 0.5, make_shared<Metal>(color(0.8,0.8,0.8), 1.0)),
         });
 
     // Set camera
