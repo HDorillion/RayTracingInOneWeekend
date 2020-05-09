@@ -1,5 +1,7 @@
 #include "dialectric.h"
 
+#include <cmath>
+
 bool Dialectric::scatter(
     const ray& r_in, const intersection_record& record, color& attenuation, ray& scattered_ray
 ) const {
@@ -21,10 +23,23 @@ bool Dialectric::scatter(
         scattered_ray = ray(record.p, reflected_ray);
         return true;
     }
+    else if (
+        random_double() < schlick_approximate(cos_theta, etai_over_etat)
+        ) {
+        vec3 reflected_ray = reflect(unit_direction, record.normal);
+        scattered_ray = ray(record.p, reflected_ray);
+        return true;
+    }
     else { // Refract
         vec3 refracted_ray =
             refract(unit_direction, record.normal, etai_over_etat);
         scattered_ray = ray(record.p, refracted_ray);
         return true;
     }
+}
+
+double schlick_approximate(double cosine, double ref_ind) {
+    auto r0 = (1 - ref_ind) / (1 + ref_ind);
+    r0 *= r0;
+    return r0 + (1 - r0) * pow((1 - cosine), 5);
 }

@@ -14,3 +14,4 @@ public:
     ) const override;
 };
 
+double schlick_approximate(double cosine, double ref_ind);
